@@ -1,0 +1,24 @@
+#!/usr/bin/ruby -w
+# encoding: UTF-8
+
+require 'cgi'
+
+subject = ENV['MM_SUBJECT']
+message = "<message:<" + ENV['MM_MESSAGE_ID'] + ">>"
+
+range_string = ENV['MM_SELECTED_RANGE']
+selection = ""
+if range_string.nil?
+  detect_path = ENV['MM_SUPPORT_PATH'] + "/bin/detect"
+  date = `#{detect_path}`
+  selection = date.chop
+else
+  canonical = $stdin.read
+  offset1,offset2 = range_string.match(/(\d+):(\d+)/).captures
+  range = Integer(offset1)..Integer(offset2)
+  selection = canonical[range]
+  selection.gsub!("\n", ' ')
+end
+
+# Use BusyCal URL scheme to create the calendar entry
+system("open", "busycalevent://new/" + CGI::escape([subject, selection, message].join(" ")))
