@@ -21,4 +21,4 @@ else
 end
 
 # Use BusyCal URL scheme to create the calendar entry
-system("open", "busycalevent://new/" + CGI::escape([subject, selection, message].join(" ")))
+system("open", "busycalevent://new/" + CGI::escape([subject, selection, message].join(" ")).gsub('+', '%20'))
