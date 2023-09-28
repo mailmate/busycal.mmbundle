@@ -4,7 +4,8 @@
 require 'cgi'
 
 subject = ENV['MM_SUBJECT']
-message = "<message:<" + ENV['MM_MESSAGE_ID'] + ">>"
+message = "<message://" + ENV['MM_MESSAGE_ID'] + ">"
+
 
 range_string = ENV['MM_SELECTED_RANGE']
 selection = ""
